@@ -1,0 +1,80 @@
+/* Wrapper sets the perspective for the 3D space - higher values = less extreme perspective */
+.flip-wrapper {
+  perspective: 2000px; /* Distance from viewer to z=0 plane - creates the 3D effect depth */
+  width: 200px;        /* Size of the container */
+  height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The card that will flip - preserves 3D space for its children */
+.flip-card {
+  width: 100%;
+  height: 100%;
+  /* Critical: maintains 3D positioning of child elements during transform */
+  transform-style: preserve-3d;
+  /* Transition applies to the transform property with custom timing for weighty feel */
+  transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1); /* Custom cubic-bezier for slow start, quick middle, soft end */
+  position: relative;
+  cursor: pointer;
+}
+
+/* When flipped, rotate the entire card around Y-axis */
+.flip-card.flipped {
+  transform: rotateY(180deg); /* 180-degree rotation shows the back face */
+}
+
+/* Individual faces of the card */
+.flip-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* Critical: hides the back face when it's facing away from viewer */
+  backface-visibility: hidden; /* Prevents seeing mirror-image of front when flipped */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Front face - initial state */
+.flip-face.front {
+  background-color: #f5f5dc; /* Beige/off-white (sepia base) */
+  color: #5d4037;            /* Dark brown text */
+  transform: rotateY(0deg);  /* Initially facing viewer */
+}
+
+/* Back face - initially rotated away */
+.flip-face.back {
+  background-color: #f5f5dc; /* Same base color */
+  color: #5d4037;            /* Dark brown text */
+  transform: rotateY(180deg);/* Starts flipped away (showing back would be mirror) */
+}
+
+/* Content styling */
+.cover-content h1, .cover-content h2 {
+  margin-bottom: 0.8rem;
+  color: #5d4037;
+}
+
+.cover-content p {
+  line-height: 1.6;
+  text-align: justify;
+  column-count: 2;
+  column-gap: 1.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* Responsive adjustment */
+@media (max-width: 300px) {
+  .flip-wrapper {
+    width: 150px;
+    height: 200px;
+  }
+}
