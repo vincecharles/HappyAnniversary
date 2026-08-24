@@ -1,0 +1,130 @@
+/* CSS Variables for vintage newspaper aesthetic */
+:root {
+    --sepia-base: #f5f5dc; /* Beige/off-white */
+    --sepia-dark: #5d4037; /* Dark brown */
+    --sepia-medium: #8d6e63; /* Medium brown */
+    --sepia-light: #a1887f; /* Light brown */
+    --sepia-accent: #e91e63; /* Sweet pink for accents */
+    --font-serif: 'Times New Roman', Times, serif;
+    --font-sans: 'Arial', Helvetica, sans-serif;
+    --page-width: 180px;
+    --page-height: 260px;
+}
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--sepia-base);
+    color: var(--sepia-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    perspective: 1200px; /* High perspective for depth */
+    overflow-x: hidden;
+}
+
+/* Wrapper centers the book and allows scaling on small screens */
+.book-wrapper {
+    width: 90%;
+    max-width: 500px;
+    transform-style: preserve-3d;
+}
+
+/* Book container */
+.book {
+    position: relative;
+    width: var(--page-width);
+    height: var(--page-height);
+    transform-style: preserve-3d;
+    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transform-origin: left center;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Open state */
+.book.open {
+    transform: rotateY(180deg);
+}
+
+/* Covers and pages */
+.cover, .page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    box-sizing: border-box;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: var(--sepia-base);
+    border-radius: 8px;
+    font-family: var(--font-serif);
+}
+
+/* Front cover */
+.cover.front {
+    background-color: var(--sepia-dark);
+    color: var(--sepia-base);
+    transform: rotateY(0deg);
+}
+
+/* Back of cover (inside left) */
+.cover.back {
+    background-color: var(--sepia-base);
+    color: var(--sepia-dark);
+    transform: rotateY(180deg);
+}
+
+/* Right page (static) */
+.page.right {
+    background-color: var(--sepia-base);
+    color: var(--sepia-dark);
+    transform: rotateY(0deg);
+}
+
+/* Content styling */
+.cover-content, .page-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.cover-content h1, .cover-content h2,
+.page-content h2 {
+    color: var(--sepia-dark);
+    margin-bottom: 0.8rem;
+}
+
+.cover-content p, .page-content p {
+    line-height: 1.6;
+    text-align: justify;
+    column-count: 2;
+    column-gap: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+/* Responsive safeguards */
+@media (max-height: 600px) {
+    .book-wrapper {
+        transform: scale(0.8);
+    }
+}
+
+@media (max-width: 400px) {
+    .book {
+        --page-width: 150px;
+        --page-height: 220px;
+    }
+    .page-content {
+        column-count: 1;
+    }
+}
